@@ -1,0 +1,50 @@
+version: "2"
+services:
+  nginx:
+    image: nginx:latest        
+    volumes:
+        - ./web/config/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+        - "5003:80"
+    restart: always
+    depends_on:
+        - backend_legal_text_retrieval
+        - frontend_legal_text_retrieval
+    networks:
+      - service_retrieval_net
+
+  backend_legal_text_retrieval:
+    build:
+      context: .
+      args:
+        - NODE_ENV=local
+      dockerfile: ./web/backend/Dockerfile
+    ports:
+      - "5002:5002"
+    networks:
+      - service_retrieval_net
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["0"]
+              capabilities: [gpu]
+  frontend_legal_text_retrieval:
+    build:
+      context: ./web/frontend
+      args:
+        - NODE_ENV=local
+      dockerfile: ./Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - service_retrieval_net
+    restart: unless-stopped
+    depends_on:
+      - backend_legal_text_retrieval
+networks:
+  service_retrieval_net:
+    external: true
+    driver: bridge

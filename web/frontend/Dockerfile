@@ -6,10 +6,11 @@ RUN apt-get update && apt-get install -y curl git pkg-config cmake
 
 # install as a package
 COPY requirements.txt /home/user/
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt 
 
 # copy code
 COPY . /home/user/
+RUN gdown --id 1QMSC_49kOXYb6b64eFKUT_3YBx5OKbvc
 
 EXPOSE 5000
 

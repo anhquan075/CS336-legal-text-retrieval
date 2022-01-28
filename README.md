@@ -10,10 +10,6 @@ This system contains 2 steps:
 ```bash 
 git clone https://github.com/vncorenlp/VnCoreNLP.git vncorenlp_data 
 # for vncorebnlp tokenize lib
-
-conda create -n legal_retrieval_env python=3.8
-conda activate legal_retrieval_env
-pip install -r requirements.txt
 ```
 ## Run  
 1. Download preprocessing data and the model:

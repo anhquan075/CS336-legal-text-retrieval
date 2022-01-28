@@ -28,4 +28,4 @@ git clone https://github.com/vncorenlp/VnCoreNLP.git vncorenlp_data
   ```
 Note: 
 + The backend service use port 5002, and the frontend service use port 5000. You can change the port by passing in ```docker-compose.yml```.
-+ If you face with any errors, don't hesitate to create a new issuse. 
++ If you face with any errors, don't hesitate to create a new issue. 

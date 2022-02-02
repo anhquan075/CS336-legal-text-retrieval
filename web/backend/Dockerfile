@@ -1,9 +1,9 @@
-FROM nvidia/cuda:11.1-cudnn8-devel-ubuntu20.04
+FROM nvidia/cuda:11.4.1-runtime-ubuntu20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 #set up environment
-RUN apt update && apt install -y --no-install-recommends \
+RUN apt-get update && apt install -y --no-install-recommends \
     tzdata \
     default-jdk \
     git \
@@ -15,15 +15,12 @@ RUN apt update && apt install -y --no-install-recommends \
 WORKDIR /workingspace
 
 # install python environments 
-COPY web/backend/requirements.txt /workingspace
-RUN pip3 -q install pip --upgrade && pip3 install -r requirements.txt
+COPY . /workingspace
+RUN pip3 -q install gdown pip --upgrade && pip3 install -r web/backend/requirements.txt && bash prepare.sh
 
 EXPOSE 5002
 
-COPY src/ /workingspace/src/
-COPY settings/ /workingspace/settings/
-COPY data /workingspace/data/
-COPY web/backend/ /workingspace/
+WORKDIR /workingspace/web/backend/
 
 ENV PYTHONPATH "${PYTHONPATH}:/workingspace/src"
 

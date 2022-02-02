@@ -142,11 +142,11 @@ def main():
     run_query = (run_pressed or question != st.session_state.question) and not st.session_state.random_question_requested
     
     # Check the connection
-    # with st.spinner("⌛️ &nbsp;&nbsp; Service is starting..."):
-    #     if not service_is_ready():
-    #         st.error("🚫 &nbsp;&nbsp; Connection Error. Is the API running?")
-    #         run_query = False
-    #         reset_results()
+    with st.spinner("⌛️ &nbsp;&nbsp; Service is starting..."):
+        if not service_is_ready():
+            st.error("🚫 &nbsp;&nbsp; Connection Error. Is the API running?")
+            run_query = False
+            reset_results()
 
     # Get results for query
     if run_query and question:

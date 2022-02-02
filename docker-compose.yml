@@ -12,7 +12,18 @@ services:
         - frontend_legal_text_retrieval
     networks:
       - service_retrieval_net
-
+  db:
+      image: mongo:latest
+      environment:
+          - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+          - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      ports:
+        - "5002:80"
+      restart: always
+      depends_on:
+        - backend_legal_text_retrieval
+      networks:
+      - service_retrieval_net
   backend_legal_text_retrieval:
     build:
       context: .
@@ -31,6 +42,9 @@ services:
             - driver: nvidia
               device_ids: ["0"]
               capabilities: [gpu]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
   frontend_legal_text_retrieval:
     build:
       context: ./web/frontend

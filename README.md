@@ -21,10 +21,11 @@ git clone https://github.com/vncorenlp/VnCoreNLP.git vncorenlp_data
   ```bash
   bash prepare.sh 
   ```
-2. Run the service using docker-compose:
+2. Config your mongo database in ```web/config/db.env.copy``` by ```cp web/config/db.env.copy web/config/db.env``` then fill the file with the information as you want to.
+
+3. Run the service using docker-compose:
   ```bash
-    docker-compose build
-    docker-compose up
+    docker-compose --env-file=web/config/db.env up --build
   ```
 Note: 
 + The backend service use port 5002, and the frontend service use port 5000. You can change the port by passing in ```docker-compose.yml```.

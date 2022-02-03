@@ -12,7 +12,7 @@ import argparse
 #from stopwords_tfidf_generator import do_generate_stopwords
 from tfidf_classifier import do_classify
 from utils import Question, load_data_kse, postag_filter
-from vncorenlp import VnCoreNLP
+# from vncorenlp import VnCoreNLP
 from pyvi import ViTokenizer
 
 from underthesea import word_tokenize

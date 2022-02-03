@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 services:
   nginx:
     image: nginx:latest        
@@ -13,22 +13,24 @@ services:
     networks:
       - service_retrieval_net
   db:
-      image: mongo:latest
+      image: mongo
       environment:
-          - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-          - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
       ports:
-        - "5002:80"
+      - 27017:27017
       restart: always
       depends_on:
-        - backend_legal_text_retrieval
+      - backend_legal_text_retrieval
       networks:
       - service_retrieval_net
+      volumes:
+      - mongodata:/data/db
+
   backend_legal_text_retrieval:
     build:
       context: .
-      args:
-        - NODE_ENV=local
       dockerfile: ./web/backend/Dockerfile
     ports:
       - "5002:5002"
@@ -42,14 +44,14 @@ services:
             - driver: nvidia
               device_ids: ["0"]
               capabilities: [gpu]
+    env_file:
+      - ./web/config/db.env
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - "MONGODB_USERNAME=${MONGODB_USERNAME}"
+      - "MONGODB_PASSWORD=${MONGODB_PASSWORD}"
   frontend_legal_text_retrieval:
     build:
       context: ./web/frontend
-      args:
-        - NODE_ENV=local
       dockerfile: ./Dockerfile
     ports:
       - "5000:5000"
@@ -62,3 +64,6 @@ networks:
   service_retrieval_net:
     external: true
     driver: bridge
+
+volumes:
+  mongodata:

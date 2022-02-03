@@ -4,7 +4,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 #set up environment
 RUN apt-get update && apt install -y --no-install-recommends \
-    tzdata \
     default-jdk \
     git \
     build-essential \
@@ -15,11 +14,13 @@ RUN apt-get update && apt install -y --no-install-recommends \
 WORKDIR /workingspace
 
 # install python environments 
-COPY . /workingspace
+COPY prepare.sh /workingspace
+COPY web/backend/requirements.txt /workingspace/web/backend/
 RUN pip3 -q install gdown pip --upgrade && pip3 install -r web/backend/requirements.txt && bash prepare.sh
 
 EXPOSE 5002
 
+COPY . /workingspace/
 WORKDIR /workingspace/web/backend/
 
 ENV PYTHONPATH "${PYTHONPATH}:/workingspace/src"

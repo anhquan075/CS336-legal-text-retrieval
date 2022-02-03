@@ -21,3 +21,4 @@ pyyaml==5.4.1
 underthesea
 pyvi
 easydict
+Flask-PyMongo

@@ -12,18 +12,9 @@ git clone https://github.com/vncorenlp/VnCoreNLP.git vncorenlp_data
 # for vncorebnlp tokenize lib
 ```
 ## Run  
-1. Download preprocessing data and the model:
-- Install ```gdown``` first
-  ```bash
-  pip3 install gdown
-  ```
-- Download data and model
-  ```bash
-  bash prepare.sh 
-  ```
-2. Config your mongo database in ```web/config/db.env.copy``` by ```cp web/config/db.env.copy web/config/db.env``` then fill the file with the information as you want to.
+1. Config your mongo database in ```web/config/db.env.copy``` by ```cp web/config/db.env.copy web/config/db.env``` then fill the file with the information as you want to.
 
-3. Run the service using docker-compose:
+2. Run the service using docker-compose:
   ```bash
     docker-compose --env-file=web/config/db.env up --build
   ```

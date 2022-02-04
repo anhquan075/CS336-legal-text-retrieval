@@ -176,7 +176,6 @@ class serviceLegalTextRetrievalHandler(Resource):
             
             response_time = int(time.time())
             response = {
-                'test_ids': test_ids[0],
                 'test_sents': test_sents[0],
                 'timestamp': response_time, 
                 'title': article_title,
@@ -191,7 +190,6 @@ class serviceLegalTextRetrievalHandler(Resource):
         except Exception as e:
             print(e)
             response = {
-                'test_ids': test_ids[0],
                 'test_sents': test_sents[0],
                 'timestamp': receive_time,
                 'title': "",

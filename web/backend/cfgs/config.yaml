@@ -2,5 +2,4 @@ SERVICE:
     SERVICE_IP: "0.0.0.0"
     SERVICE_PORT: 5002
     LOG_PATH: "logfile"
-    MODEL_NAME: "hogger32/xlmRoberta-for-VietnameseQA"
     LEGAL_CORPUS_FILE: "data/zac2021-ltr-data/legal_corpus.json"

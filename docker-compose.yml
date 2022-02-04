@@ -38,6 +38,9 @@ services:
     networks:
       - service_retrieval_net
     restart: unless-stopped
+    
+    env_file:
+    - ./web/config/db.env
     deploy:
       resources:
         reservations:

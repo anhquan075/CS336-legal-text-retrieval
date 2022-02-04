@@ -1,9 +1,8 @@
 from env import model_configs
-from app import api, app
+from app import api, app, nlp
 
 from flask_restful import Resource, reqparse
 from tqdm import tqdm
-from transformers import pipeline
 from flask_pymongo import PyMongo
 
 import uuid
@@ -23,7 +22,6 @@ cfg_service.merge_from_file('cfgs/config.yaml')
 
 SERVICE_IP = cfg_service.SERVICE.SERVICE_IP
 SERVICE_PORT = cfg_service.SERVICE.SERVICE_PORT
-MODEL_NAME = cfg_service.SERVICE.MODEL_NAME
 LEGAL_CORPUS_FILE = cfg_service.SERVICE.LEGAL_CORPUS_FILE
 
 with open('/workingspace/' + LEGAL_CORPUS_FILE, 'r', encoding='utf-8') as fo:
@@ -35,9 +33,6 @@ app.config["MONGO_URI"] = 'mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + 
 
 mongo = PyMongo(app)
 db = mongo.db
-
-# Initialize QA model
-nlp = pipeline('question-answering', model=MODEL_NAME, tokenizer=MODEL_NAME)
 
 # Initialize the retrieval model
 model_init_states = {}
@@ -184,6 +179,8 @@ class serviceLegalTextRetrievalHandler(Resource):
                 'test_ids': test_ids[0],
                 'test_sents': test_sents[0],
                 'timestamp': response_time, 
+                'title': article_title,
+                'text': article_text,
                 "start_id": start_idx, 
                 "end_id": end_idx
             }
@@ -195,8 +192,10 @@ class serviceLegalTextRetrievalHandler(Resource):
             print(e)
             response = {
                 'test_ids': test_ids[0],
-                'test_sents': test_sents,
+                'test_sents': test_sents[0],
                 'timestamp': receive_time,
+                'title': "",
+                'text': "",
                 "start_id": None,
                 "end_id": None
             }

@@ -10,7 +10,7 @@ RUN pip install -r requirements.txt
 
 # copy code
 COPY . /home/user/
-RUN gdown --id 1QMSC_49kOXYb6b64eFKUT_3YBx5OKbvc
+RUN gdown --id 1QMSC_49kOXYb6b64eFKUT_3YBx5OKbvc && gdown --id 1oHR4CBNOwVKzz37zD7BW0kJYhwecEsQU
 
 EXPOSE 5000
 

@@ -6,12 +6,13 @@ services:
         - ./web/config/nginx.conf:/etc/nginx/nginx.conf
     ports:
         - "5003:80"
-    restart: always
+    restart: unless-stopped
     depends_on:
         - backend_legal_text_retrieval
         - frontend_legal_text_retrieval
     networks:
       - service_retrieval_net
+    
   db:
       image: mongo
       environment:
@@ -20,7 +21,7 @@ services:
       - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
       ports:
       - 27017:27017
-      restart: always
+      restart: unless-stopped
       depends_on:
       - backend_legal_text_retrieval
       networks:
@@ -44,11 +45,10 @@ services:
             - driver: nvidia
               device_ids: ["0"]
               capabilities: [gpu]
-    env_file:
-      - ./web/config/db.env
     environment:
       - "MONGODB_USERNAME=${MONGODB_USERNAME}"
       - "MONGODB_PASSWORD=${MONGODB_PASSWORD}"
+
   frontend_legal_text_retrieval:
     build:
       context: ./web/frontend
